@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>UMKC Hospital Analytics</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .top-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .umkc {
+      color: #004d9c;
+      font-weight: bold;
+    }
+    .hospital {
+      color: #333;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+    }
+    .field label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .hidden {
+      display: none;
+    }
+    .action-buttons {
+      margin-top: 20px;
+    }
+    .primary-btn,
+    .secondary-btn {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .primary-btn {
+      background-color: #007bff;
+      color: white;
+    }
+    .secondary-btn {
+      background-color: #ddd;
+    }
+    .result-box {
+      margin-top: 15px;
+      background: #eef2f5;
+      padding: 12px;
+      border-radius: 6px;
+    }
+    .risk-high { color: red; font-weight: bold; }
+    .risk-medium { color: orange; font-weight: bold; }
+    .risk-low { color: green; font-weight: bold; }
+    .error { color: red; font-weight: bold; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="top-header">
+      <h1><span class="umkc">UMKC</span> Hospital Analytics</h1>
+      <p>Predict readmission risk, plan follow-ups, and simulate staffing needs.</p>
+    </header>
+
+    <main class="main-grid">
+      <section class="card prediction-card">
+        <h2>Patient Readmission Prediction</h2>
+        <form id="predictionForm">
+          <div class="grid">
+            <div class="field">
+              <label>Patient ID</label>
+              <input type="text" id="admission_id" required />
+            </div>
+            <div class="field">
+              <label>Patient Name</label>
+              <input type="text" id="patient_name" required />
+            </div>
+            <div class="field">
+              <label>Admission Date</label>
+              <input type="date" id="admission_date" />
+            </div>
+            <div class="field">
+              <label>Discharge Date</label>
+              <input type="date" id="discharge_date" />
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="field"><label>Age</label><input type="number" id="Age" required /></div>
+            <div class="field">
+              <label>Sex</label>
+              <select id="Sex" required>
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="field"><label>Weight (kg)</label><input type="number" id="Weight" required /></div>
+            <div class="field"><label>Blood Pressure</label><input type="text" id="Blood_Pressure" required /></div>
+            <div class="field"><label>Cholesterol</label><input type="number" id="Cholesterol" required /></div>
+            <div class="field"><label>Insulin</label><input type="number" id="Insulin" required /></div>
+            <div class="field"><label>Platelets</label><input type="number" id="Platelets" required /></div>
+            <div class="field">
+              <label>Diabetics</label>
+              <select id="Diabetics" required>
+                <option value="">Select</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="field"><label>Air Quality Index</label><input type="number" id="air_quality_index" /></div>
+            <div class="field"><label>Social Event Count</label><input type="number" id="social_event_count" /></div>
+            <div class="field">
+              <label>Problem Type</label>
+              <select id="problem_type" required>
+                <option value="">Select</option>
+                <option value="diabetes">Diabetes</option>
+                <option value="heart_failure">Heart Failure</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Diabetes fields -->
+          <div id="diabetes-fields" class="hidden">
+            <h3>Diabetes Details</h3>
+            <div class="grid">
+              <div class="field"><label>Hemoglobin (g/dL)</label><input type="number" id="Hemoglobin" /></div>
+              <div class="field"><label>WBC Count (10^9/L)</label><input type="number" id="WBC" /></div>
+              <div class="field"><label>Platelet Count (10^9/L)</label><input type="number" id="Platelet_Count" /></div>
+              <div class="field"><label>Urine Protein (mg/dL)</label><input type="number" id="Urine_Protein" /></div>
+              <div class="field"><label>Urine Glucose (mg/dL)</label><input type="number" id="Urine_Glucose" /></div>
+            </div>
+          </div>
+
+          <!-- Heart Failure fields -->
+          <div id="hf-fields" class="hidden">
+            <h3>Heart Failure Details</h3>
+            <div class="grid">
+              <div class="field"><label>ECG Result</label><input type="number" id="ECG_Result" /></div>
+              <div class="field"><label>Pulse Rate (bpm)</label><input type="number" id="Pulse_Rate" /></div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button type="submit" class="primary-btn">🔍 Predict</button>
+            <button id="downloadPdfBtn" class="secondary-btn" disabled>📄 Download PDF</button>
+          </div>
+
+          <div id="result" class="result-box">No prediction yet.</div>
+        </form>
+      </section>
+
+      <!-- Staffing -->
+      <aside class="card">
+        <h2>Staffing Simulator</h2>
+        <p>Run staffing predictions after patient forecasts.</p>
+        <div class="field"><label>Simulation Date</label><input type="date" id="simulation_date" /></div>
+        <div class="field"><label>Hospital / Unit</label><input type="text" id="hospital_unit" placeholder="UMKC Main Hospital" /></div>
+        <button id="simulateBtn" class="primary-btn">▶ Run Staffing Simulation</button>
+        <div id="staffingSummary" class="result-box">No simulation yet.</div>
+        <canvas id="staffingChart" height="120"></canvas>
+      </aside>
+    </main>
+
+    <section class="card">
+      <h2>Follow-up Dashboard</h2>
+      <table id="followupTable">
+        <thead>
+          <tr><th>#</th><th>Patient ID</th><th>Risk</th><th>Prob (%)</th><th>Method</th><th>Timing</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- === JS === -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const fieldMap = {
+        Blood_Pressure: "Blood Pressure",
+        Hemoglobin: "Hemoglobin (g/dL)",
+        WBC: "WBC Count (10^9/L)",
+        Platelet_Count: "Platelet Count (10^9/L)",
+        Urine_Protein: "Urine Protein (mg/dL)",
+        Urine_Glucose: "Urine Glucose (mg/dL)",
+        ECG_Result: "ECG Result",
+        Pulse_Rate: "Pulse Rate (bpm)"
+      };
+
+      const form = document.getElementById("predictionForm");
+      const problemSelect = document.getElementById("problem_type");
+      const diabetesFields = document.getElementById("diabetes-fields");
+      const hfFields = document.getElementById("hf-fields");
+      const resultBox = document.getElementById("result");
+      const downloadBtn = document.getElementById("downloadPdfBtn");
+      const followupTable = document.querySelector("#followupTable tbody");
+
+      let lastPrediction = null;
+
+      // Toggle condition fields
+      problemSelect.addEventListener("change", () => {
+        const val = problemSelect.value;
+        diabetesFields.classList.toggle("hidden", val !== "diabetes");
+        hfFields.classList.toggle("hidden", val !== "heart_failure");
+      });
+
+      // Submit prediction form
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        resultBox.innerHTML = "⏳ Predicting...";
+        downloadBtn.disabled = true;
+
+        const meta = {
+          admission_id: document.getElementById("admission_id").value,
+          patient_name: document.getElementById("patient_name").value,
+          admission_date: document.getElementById("admission_date").value,
+          discharge_date: document.getElementById("discharge_date").value
+        };
+
+        const problem_type = problemSelect.value;
+        const features = {};
+
+        document.querySelectorAll("input, select").forEach(input => {
+          const id = input.id;
+          if (!id || ["admission_id", "patient_name", "admission_date", "discharge_date", "problem_type"].includes(id)) return;
+          const key = fieldMap[id] || id;
+          if (input.value !== "") {
+            const val = isNaN(input.value) ? input.value : parseFloat(input.value);
+            features[key] = val;
+          }
+        });
+
+        try {
+          const res = await fetch("http://127.0.0.1:5000/api/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ problem_type, meta, features })
+          });
+          const data = await res.json();
+
+          if (!data.success) {
+            resultBox.innerHTML = `<span class='error'>❌ ${data.error}</span>`;
+            return;
+          }
+
+          lastPrediction = data;
+          const prob = (data.probability * 100).toFixed(2);
+          resultBox.innerHTML = `
+            <h3>✅ Prediction Successful</h3>
+            <p><strong>Condition:</strong> ${data.problem_type_label}</p>
+            <p><strong>Probability:</strong> ${prob}%</p>
+            <p><strong>Risk Level:</strong> <span class="risk-${data.risk_level.toLowerCase()}">${data.risk_level}</span></p>
+            <p><strong>Follow-up:</strong> ${data.follow_up.timing} via ${data.follow_up.method}</p>
+          `;
+          downloadBtn.disabled = false;
+
+          const idx = followupTable.children.length + 1;
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${idx}</td>
+            <td>${meta.admission_id}</td>
+            <td>${data.risk_level}</td>
+            <td>${prob}</td>
+            <td>${data.follow_up.method}</td>
+            <td>${data.follow_up.timing}</td>
+          `;
+          followupTable.appendChild(row);
+        } catch (err) {
+          console.error("Prediction error:", err);
+          resultBox.innerHTML = `<span class='error'>❌ Prediction failed: ${err.message}</span>`;
+        }
+      });
+
+      // Download PDF
+      downloadBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        if (!lastPrediction) return;
+        try {
+          const res = await fetch("http://127.0.0.1:5000/api/report/pdf", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(lastPrediction)
+          });
+          const blob = await res.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "Readmission_Report.pdf";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        } catch (err) {
+          alert("Failed to download PDF: " + err.message);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+/* ------------------------------
+   🎨 UMKC Hospital Dashboard Style
+   Author: Ganesh Sri Jareddy (UMKC)
+--------------------------------- */
+
+:root {
+  --umkc-blue: #007BFF;
+  --light-blue: #E8F3FF;
+  --white: #FFFFFF;
+  --sky-gradient: linear-gradient(135deg, #57B7FF, #007BFF);
+  --text-dark: #1B263B;
+  --text-muted: #5B6B80;
+  --card-border: #C9E4FF;
+}
+
+/* Body & Global Layout */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--light-blue);
+  color: var(--text-dark);
+}
+
+/* Header Section */
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--sky-gradient);
+  color: var(--white);
+  padding: 16px 32px;
+  border-bottom: 3px solid #004c97;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.top-header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.top-header p {
+  margin-top: 6px;
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-container img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--white);
+  padding: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.umkc-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.umkc-title span:first-child {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.umkc-title span:last-child {
+  font-size: 14px;
+  color: #d9ecff;
+}
+
+/* Main Container */
+.app-container {
+  max-width: 1300px;
+  margin: 20px auto;
+  padding: 0 20px 30px;
+}
+
+/* Card Styles */
+.card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 5px 25px rgba(0, 123, 255, 0.12);
+  margin-bottom: 22px;
+  border: 1px solid var(--card-border);
+}
+
+.card h2 {
+  color: var(--umkc-blue);
+  font-weight: 600;
+  margin-top: 0;
+}
+
+/* Form Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px 18px;
+  margin-bottom: 10px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #B5D7FF;
+  background-color: #F9FCFF;
+  color: var(--text-dark);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--umkc-blue);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+/* Buttons */
+.primary-btn, .secondary-btn {
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+  font-size: 13px;
+}
+
+.primary-btn {
+  background: var(--umkc-blue);
+  color: var(--white);
+}
+
+.primary-btn:hover {
+  background: #005ec9;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 2px solid var(--umkc-blue);
+  color: var(--umkc-blue);
+}
+
+.secondary-btn:hover {
+  background: rgba(0, 123, 255, 0.08);
+}
+
+/* Result Boxes */
+.result-box {
+  background: #F1F8FF;
+  border: 1px solid #CBE3FF;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+  color: var(--text-dark);
+  margin-top: 10px;
+}
+
+/* Table */
+#followupTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+#followupTable th,
+#followupTable td {
+  padding: 10px;
+  border-bottom: 1px solid #CBE3FF;
+  text-align: left;
+}
+
+#followupTable th {
+  background-color: #007BFF;
+  color: white;
+  font-weight: 600;
+}
+
+/* Chart Area */
+canvas {
+  margin-top: 10px;
+}
+
+/* Conditional Sections */
+.conditional {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #C9E4FF;
+}
+
+/* Layout adjustments */
+.main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.muted {
+  color: #6b7280;
+}
+
+.hidden {
+  display: none;
+}
+
+.action-buttons {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
