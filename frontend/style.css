@@ -1,232 +1,416 @@
-/* ------------------------------
-   🎨 UMKC Hospital Dashboard Style
+/* ================================================
+   🎨 UMKC Hospital Dashboard - Modern Design
    Author: Ganesh Sri Jareddy (UMKC)
---------------------------------- */
+================================================ */
 
 :root {
-  --umkc-blue: #007BFF;
-  --light-blue: #E8F3FF;
-  --white: #FFFFFF;
-  --sky-gradient: linear-gradient(135deg, #57B7FF, #007BFF);
-  --text-dark: #1B263B;
-  --text-muted: #5B6B80;
-  --card-border: #C9E4FF;
+  /* Primary Colors */
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --primary-dark: #1e40af;
+  
+  /* Secondary Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #06b6d4;
+  
+  /* Neutrals */
+  --white: #ffffff;
+  --light: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-900: #0f172a;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
 }
 
-/* Body & Global Layout */
-body {
+/* ======================== GLOBAL ======================== */
+* {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: var(--light-blue);
-  color: var(--text-dark);
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Header Section */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: var(--gray-900);
+  line-height: 1.6;
+}
+
+/* ======================== HEADER ======================== */
 .top-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--sky-gradient);
+  background: var(--gradient-primary);
   color: var(--white);
-  padding: 16px 32px;
-  border-bottom: 3px solid #004c97;
-  border-radius: 0 0 20px 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  box-shadow: var(--shadow-xl);
+  margin-bottom: var(--spacing-2xl);
+  border-bottom: 4px solid var(--primary-dark);
 }
 
 .top-header h1 {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .top-header p {
-  margin-top: 6px;
-  font-size: 14px;
+  font-size: 1.1rem;
   opacity: 0.95;
+  margin: 0;
 }
 
-.logo-container {
+.umkc {
+  color: #fbbf24;
+  font-weight: 900;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ======================== CONTAINER ======================== */
+.app-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+}
+
+/* ======================== CARDS ======================== */
+.card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-xl);
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-light);
+}
+
+.card h2 {
+  color: var(--primary);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-md);
 }
 
-.logo-container img {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: var(--white);
-  padding: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.card h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 28px;
+  background: var(--primary);
+  border-radius: 2px;
 }
 
-.umkc-title {
+/* ======================== FORMS ======================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.field {
   display: flex;
   flex-direction: column;
 }
 
-.umkc-title span:first-child {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--white);
-}
-
-.umkc-title span:last-child {
-  font-size: 14px;
-  color: #d9ecff;
-}
-
-/* Main Container */
-.app-container {
-  max-width: 1300px;
-  margin: 20px auto;
-  padding: 0 20px 30px;
-}
-
-/* Card Styles */
-.card {
-  background: var(--white);
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 5px 25px rgba(0, 123, 255, 0.12);
-  margin-bottom: 22px;
-  border: 1px solid var(--card-border);
-}
-
-.card h2 {
-  color: var(--umkc-blue);
-  font-weight: 600;
-  margin-top: 0;
-}
-
-/* Form Grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px 18px;
-  margin-bottom: 10px;
-}
-
 .field label {
-  display: block;
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 4px;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .field input,
 .field select {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: 1px solid #B5D7FF;
-  background-color: #F9FCFF;
-  color: var(--text-dark);
-  font-size: 13px;
-  outline: none;
+  padding: 0.75rem var(--spacing-md);
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--white);
+  color: var(--gray-900);
+  font-size: 1rem;
   transition: all 0.2s ease;
+  font-family: inherit;
 }
 
 .field input:focus,
 .field select:focus {
-  border-color: var(--umkc-blue);
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background: var(--light);
 }
 
-/* Buttons */
-.primary-btn, .secondary-btn {
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-weight: 600;
-  cursor: pointer;
+.field input::placeholder {
+  color: var(--gray-300);
+}
+
+/* ======================== BUTTONS ======================== */
+.action-buttons {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 0.875rem 2rem;
   border: none;
-  transition: 0.2s;
-  font-size: 13px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
 .primary-btn {
-  background: var(--umkc-blue);
+  background: var(--gradient-primary);
   color: var(--white);
+  box-shadow: var(--shadow-md);
 }
 
 .primary-btn:hover {
-  background: #005ec9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.primary-btn:active {
+  transform: translateY(0);
 }
 
 .secondary-btn {
-  background: transparent;
-  border: 2px solid var(--umkc-blue);
-  color: var(--umkc-blue);
+  background: var(--gray-100);
+  color: var(--primary);
+  border: 2px solid var(--primary);
 }
 
 .secondary-btn:hover {
-  background: rgba(0, 123, 255, 0.08);
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: var(--shadow-md);
 }
 
-/* Result Boxes */
+/* ======================== RESULTS ======================== */
 .result-box {
-  background: #F1F8FF;
-  border: 1px solid #CBE3FF;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: 13px;
-  color: var(--text-dark);
-  margin-top: 10px;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 2px solid var(--primary-light);
+  border-radius: 12px;
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+  font-size: 1rem;
+  color: var(--gray-900);
 }
 
-/* Table */
-#followupTable {
+.result-box.success {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: var(--success);
+}
+
+.result-box.warning {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border-color: var(--warning);
+}
+
+.result-box.danger {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-color: var(--danger);
+}
+
+/* ======================== RISK LEVELS ======================== */
+.risk-high {
+  color: var(--danger);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.risk-medium {
+  color: var(--warning);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.risk-low {
+  color: var(--success);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.error {
+  color: var(--danger);
+  font-weight: 600;
+  padding: var(--spacing-md);
+  background: rgba(239, 68, 68, 0.05);
+  border-left: 4px solid var(--danger);
+  border-radius: 8px;
+}
+
+/* ======================== TABLES ======================== */
+table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 8px;
-  font-size: 13px;
+  margin-top: var(--spacing-lg);
+  font-size: 0.95rem;
 }
 
-#followupTable th,
-#followupTable td {
-  padding: 10px;
-  border-bottom: 1px solid #CBE3FF;
+table th {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: var(--primary);
+  font-weight: 700;
   text-align: left;
+  padding: var(--spacing-md);
+  border-bottom: 3px solid var(--primary);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
 }
 
-#followupTable th {
-  background-color: #007BFF;
-  color: white;
-  font-weight: 600;
+table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--gray-200);
 }
 
-/* Chart Area */
-canvas {
-  margin-top: 10px;
+table tr:hover {
+  background: var(--light);
 }
 
-/* Conditional Sections */
-.conditional {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px dashed #C9E4FF;
+table tr:last-child td {
+  border-bottom: none;
 }
 
-/* Layout adjustments */
+/* ======================== SECTIONS ======================== */
 .main-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
-}
-
-.muted {
-  color: #6b7280;
+  gap: var(--spacing-xl);
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
-.action-buttons {
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
+/* ======================== CONDITIONAL ======================== */
+.conditional {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 2px dashed var(--gray-200);
+}
+
+/* ======================== RESPONSIVE ======================== */
+@media (max-width: 768px) {
+  .top-header {
+    padding: var(--spacing-lg);
+  }
+
+  .top-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .top-header p {
+    font-size: 0.95rem;
+  }
+
+  .app-container {
+    padding: var(--spacing-md);
+  }
+
+  .card {
+    padding: var(--spacing-lg);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  table th,
+  table td {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* ======================== ANIMATIONS ======================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading {
+  animation: pulse 2s ease-in-out infinite;
 }
