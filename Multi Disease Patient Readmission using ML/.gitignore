@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# Flask
+instance/
+.pytest_cache/
+
+# ML Models (already in repo, but for future)
+# *.pkl
+
+# Data
+# *.csv
+
+# Elastic Beanstalk
+.elasticbeanstalk/
+
+# Docker
+*.tar.gz

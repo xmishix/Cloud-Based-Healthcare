@@ -1,0 +1,27 @@
+# Elastic Beanstalk ignore file
+# Excludes files from deployment package
+
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.log
+.git/
+.gitignore
+.env
+.venv
+*.md
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+node_modules/
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/

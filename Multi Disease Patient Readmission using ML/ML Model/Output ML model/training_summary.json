@@ -1,0 +1,12 @@
+{
+  "best_model": "LogisticRegression_HeartFailure",
+  "metrics_test": {
+    "roc_auc": 0.6398431925372875,
+    "pr_auc": 0.5036369556523381,
+    "accuracy": 0.605,
+    "precision": 0.4568764568764569,
+    "recall": 0.547486033519553,
+    "f1": 0.49809402795425667
+  },
+  "timestamp": "2025-11-12T04:42:24.263104"
+}

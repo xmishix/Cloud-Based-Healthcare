@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UMKC Hospital Analytics - AI Readmission Prediction</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <i class="fas fa-heartbeat pulse-icon"></i>
+          <h1>
+            <span class="umkc">UMKC</span>
+            <span class="hospital">Hospital Analytics</span>
+          </h1>
+        </div>
+        <p class="subtitle">AI-Powered Readmission Risk Prediction & Resource Planning</p>
+        <div class="header-stats">
+          <div class="stat-badge">
+            <i class="fas fa-brain"></i>
+            <span>ML Powered</span>
+          </div>
+          <div class="stat-badge">
+            <i class="fas fa-shield-alt"></i>
+            <span>HIPAA Compliant</span>
+          </div>
+          <div class="stat-badge">
+            <i class="fas fa-clock"></i>
+            <span>Real-time</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <!-- LEFT: PATIENT FORM -->
+      <section class="card form-card">
+        <div class="card-header">
+          <i class="fas fa-user-injured"></i>
+          <h2>Patient Assessment</h2>
+        </div>
+
+        <form id="prediction-form">
+          <!-- Patient Information -->
+          <div class="section-divider">
+            <i class="fas fa-id-card"></i>
+            <span>Patient Information</span>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label><i class="fas fa-hashtag"></i> Patient ID</label>
+              <input type="text" id="patient_id" placeholder="e.g., ADM1234">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-user"></i> Patient Name</label>
+              <input type="text" id="patient_name" placeholder="e.g., John Doe">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label><i class="fas fa-calendar-check"></i> Admission Date</label>
+              <input type="date" id="admission_date">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-calendar-times"></i> Discharge Date</label>
+              <input type="date" id="discharge_date">
+            </div>
+          </div>
+
+          <!-- Clinical Details -->
+          <div class="section-divider">
+            <i class="fas fa-stethoscope"></i>
+            <span>Clinical Details</span>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label><i class="fas fa-disease"></i> Disease Type</label>
+              <select id="problem_type" required>
+                <option value="Diabetes">Diabetes</option>
+                <option value="Heart Disease">Heart Disease</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-birthday-cake"></i> Age</label>
+              <input type="number" id="age" min="0" max="120" placeholder="e.g., 65" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label><i class="fas fa-venus-mars"></i> Sex</label>
+              <select id="sex" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-weight"></i> Weight (kg)</label>
+              <input type="number" id="weight" step="0.1" placeholder="e.g., 75.5" required>
+            </div>
+          </div>
+
+          <!-- Vital Signs -->
+          <div class="section-divider">
+            <i class="fas fa-heartbeat"></i>
+            <span>Vital Signs & Lab Results</span>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label><i class="fas fa-tint"></i> Blood Pressure</label>
+              <input type="text" id="bp" placeholder="e.g., 120/80" pattern="\d{2,3}/\d{2,3}" required>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-flask"></i> Cholesterol (mg/dL)</label>
+              <input type="number" id="cholesterol" step="0.1" placeholder="e.g., 180" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label><i class="fas fa-syringe"></i> Insulin Level</label>
+              <select id="insulin">
+                <option value="Normal">Normal</option>
+                <option value="Low">Low</option>
+                <option value="Moderate">Moderate</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-notes-medical"></i> Diabetic Status</label>
+              <select id="diabetics">
+                <option value="Normal">Normal</option>
+                <option value="Low">Low</option>
+                <option value="Moderate">Moderate</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Diabetes-Specific Fields -->
+          <div id="diabetes-fields" class="conditional-section">
+            <div class="section-divider">
+              <i class="fas fa-vial"></i>
+              <span>Diabetes-Specific Tests</span>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label><i class="fas fa-vials"></i> Hemoglobin (g/dL)</label>
+                <input type="number" id="hb" step="0.1" placeholder="e.g., 13.5">
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-microscope"></i> WBC Count (10⁹/L)</label>
+                <input type="number" id="wbc" step="0.1" placeholder="e.g., 7.0">
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-procedures"></i> Platelet Count (10⁹/L)</label>
+                <input type="number" id="plt_count" step="0.1" placeholder="e.g., 250">
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-prescription-bottle"></i> Urine Protein (mg/dL)</label>
+                <input type="number" id="urine_protein" step="0.1" placeholder="e.g., 10">
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-prescription"></i> Urine Glucose (mg/dL)</label>
+                <input type="number" id="urine_glucose" step="0.1" placeholder="e.g., 5">
+              </div>
+            </div>
+          </div>
+
+          <!-- Heart Disease-Specific Fields -->
+          <div id="heart-fields" class="conditional-section hidden">
+            <div class="section-divider">
+              <i class="fas fa-heart"></i>
+              <span>Cardiac Tests</span>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label><i class="fas fa-heartbeat"></i> ECG Result</label>
+                <select id="ecg">
+                  <option value="Normal">Normal</option>
+                  <option value="Borderline">Borderline</option>
+                  <option value="Abnormal">Abnormal</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-heart-pulse"></i> Pulse Rate (bpm)</label>
+                <input type="number" id="pulse" step="1" placeholder="e.g., 72">
+              </div>
+            </div>
+          </div>
+
+          <!-- Environmental Factors -->
+          <div class="section-divider">
+            <i class="fas fa-cloud-sun"></i>
+            <span>Environmental Factors</span>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label><i class="fas fa-wind"></i> Air Quality Index</label>
+              <input type="number" id="aqi" value="80" min="0" max="500">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-calendar-week"></i> Social Event Count</label>
+              <input type="number" id="events" value="0" min="0">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <i class="fas fa-chart-line"></i>
+            <span>Predict Readmission Risk</span>
+            <div class="btn-glow"></div>
+          </button>
+        </form>
+      </section>
+
+      <!-- RIGHT: RESULTS & INSIGHTS -->
+      <section class="card result-card hidden" id="result-card">
+        <div class="card-header">
+          <i class="fas fa-chart-bar"></i>
+          <h2>Prediction & Insights</h2>
+        </div>
+
+        <!-- Risk Summary -->
+        <div id="prediction-summary" class="risk-summary">
+          <div class="risk-badge" id="risk-badge">
+            <div class="risk-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="risk-details">
+              <span class="risk-label" id="out-risk-label">-</span>
+              <span class="risk-score">Risk Score: <strong id="out-score">-</strong></span>
+            </div>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-item">
+              <i class="fas fa-disease"></i>
+              <div>
+                <span class="info-label">Disease</span>
+                <span class="info-value" id="out-disease">-</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-heartbeat"></i>
+              <div>
+                <span class="info-label">Prediction</span>
+                <span class="info-value" id="out-prediction">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-section">
+          <div class="chart-container">
+            <h3><i class="fas fa-chart-pie"></i> Risk Visualization</h3>
+            <canvas id="riskChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Follow-up Recommendation -->
+        <div class="followup-section">
+          <h3><i class="fas fa-calendar-check"></i> Follow-up Care Plan</h3>
+          <div class="followup-content" id="out-followup">
+            <i class="fas fa-spinner fa-spin"></i> Loading...
+          </div>
+        </div>
+
+        <!-- Staffing Simulation -->
+        <div class="simulation-section">
+          <h3><i class="fas fa-users-cog"></i> Resource Planning</h3>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label><i class="fas fa-calendar-alt"></i> Simulation Date</label>
+              <input type="date" id="simulation_date">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-hospital"></i> Hospital Unit</label>
+              <select id="hospital_unit">
+                <option value="UMKC Main Hospital">UMKC Main Hospital</option>
+                <option value="UMKC South Unit">UMKC South Unit</option>
+                <option value="UMKC City Clinic">UMKC City Clinic</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="button" id="run-simulation" class="btn-secondary">
+            <i class="fas fa-cogs"></i>
+            <span>Run Staffing Simulation</span>
+          </button>
+
+          <div id="simulation-output" class="simulation-result hidden"></div>
+
+          <div class="chart-container hidden" id="staff-chart-container">
+            <h4><i class="fas fa-chart-bar"></i> Resource Allocation</h4>
+            <canvas id="staffChart"></canvas>
+          </div>
+        </div>
+
+        <!-- PDF Download -->
+        <button id="download-pdf" class="btn-download">
+          <i class="fas fa-file-pdf"></i>
+          <span>Download Clinical Report</span>
+        </button>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 UMKC Hospital Analytics | AI-Powered Healthcare Solutions</p>
+    </footer>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay hidden" id="loading-overlay">
+    <div class="loading-spinner">
+      <i class="fas fa-heartbeat"></i>
+      <p>Analyzing patient data...</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
